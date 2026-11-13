@@ -8,6 +8,7 @@ import PlotCenter from "@/assets/sponsors/plot-center.png"
 import TecnoBytes from "@/assets/sponsors/tecno-bytes.png"
 import SolucionesDigitales from "@/assets/sponsors/soluciones-digitales.png"
 import LagEsports from "@/assets/sponsors/lag-esports.png"
+import LeonidaMap from "@/components/LeonidaMap.astro"
 
 const sponsors = [
   { name: "Mundo Play", logo: MundoPlay },
@@ -20,10 +21,9 @@ const sponsors = [
 const address = "Libertador 580 Este, San Juan"
 const mapsQuery = encodeURIComponent(`${address}, Argentina`)
 const twitchUrl = "https://www.twitch.tv/ismamansur"
-
 ---
 
-<main id="evento" class="relative z-10 isolate overflow-hidden bg-[#120a24] text-white">
+<main id="evento" class="relative z-10 isolate overflow-x-clip bg-[#120a24] text-white">
   <!-- Fondo: atardecer de Vice City -->
   <div class="absolute inset-0 -z-10">
     <img
@@ -38,10 +38,103 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
     <div class="absolute inset-0 grid-floor"></div>
   </div>
 
+  <!-- Móvil: recorrido corto, botones grandes, sin la puesta en escena de escritorio -->
+  <div class="md:hidden px-4 pt-7 pb-8">
+    <p class="text-center font-display font-extrabold uppercase tracking-[0.22em] text-[0.7rem] text-pink-200">
+      Viví el lanzamiento de
+    </p>
+    <img
+      src={FullLogo.src}
+      alt="Grand Theft Auto VI"
+      class="mx-auto mt-3 h-20 w-auto"
+    />
+    <h1 class="mt-1 text-center leading-none" aria-label="Vice City: La Invasión">
+      <span class="vice-title block font-display font-black uppercase text-[1.85rem]">Vice City</span>
+      <span class="invasion block font-script text-[2.35rem] -mt-1 -rotate-3">La Invasión</span>
+    </h1>
+    <p class="mt-4 text-center font-display font-black uppercase text-lg">
+      19 al 22 de noviembre
+    </p>
+    <p data-countdown class="mt-1 min-h-5 text-center font-display font-bold uppercase tracking-widest text-sm text-pink-200"></p>
+    <p class="mx-auto mt-4 w-fit rounded-full bg-[#ffc93c] px-4 py-2 font-display font-black uppercase text-sm text-[#1b1030]">
+      Entrada libre y gratuita
+    </p>
+
+    <div class="mt-6 grid gap-3">
+      <a
+        href={`https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`}
+        target="_blank"
+        rel="noopener"
+        class="m-btn m-btn-primary"
+      >
+        Cómo llegar
+      </a>
+      <a href={twitchUrl} target="_blank" rel="noopener" class="m-btn m-btn-ghost">
+        Ver en Twitch
+      </a>
+    </div>
+
+    <p class="mt-5 flex items-center justify-center gap-2 font-display text-[0.68rem] font-bold uppercase tracking-[0.18em] text-white/70">
+      Deslizá para ver más
+      <svg class="h-2.5 w-4" viewBox="0 0 34 14" fill="none" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M33.56 1.54a2 2 0 0 0-2.78-.9L17.05 9.09 3.23.65A2 2 0 0 0 .72 1.53a2 2 0 0 0 .77 2.89L17.04 13.92 32.78 4.43a2 2 0 0 0 .78-2.89Z"
+        ></path>
+      </svg>
+    </p>
+
+    <ul class="mt-8 grid gap-3">
+      <li class="m-card">
+        <PS5Logo class="w-12 shrink-0 text-white" />
+        <p class="font-display font-bold text-lg leading-tight">Jugá GTA VI en PS5</p>
+      </li>
+      <li class="m-card">
+        <svg viewBox="0 0 24 24" class="size-10 shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+          <path d="M12 8v13"></path>
+          <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+          <path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"></path>
+        </svg>
+        <p class="font-display font-bold text-lg leading-tight">Sorteos y premios</p>
+      </li>
+      <li>
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`}
+          target="_blank"
+          rel="noopener"
+          class="m-card"
+        >
+          <svg viewBox="0 0 24 24" class="size-10 shrink-0 text-pink-500" fill="currentColor" aria-hidden="true">
+            <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"></path>
+          </svg>
+          <span>
+            <span class="block font-display font-bold text-lg leading-tight">{address}</span>
+            <span class="mt-0.5 block font-display text-sm text-pink-200">Abrir el mapa</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+
+    <p class="mt-8 text-center font-display font-bold uppercase tracking-[0.28em] text-[0.68rem] text-pink-200/80">
+      Acompañan
+    </p>
+    <ul class="mt-3 flex flex-wrap justify-center gap-2">
+      {
+        sponsors.map((s) => (
+          <li class="sponsor-logo w-20">
+            <Image src={s.logo} alt={s.name} width={160} class="block h-auto w-full" loading="lazy" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="hidden md:block">
   <!-- Encabezado animado (motion con scroll) -->
   <section
     id="event-hero"
-    class="relative h-dvh md:h-screen md:min-h-[560px] flex flex-col items-center justify-center px-5 pb-16 md:pb-5 text-center overflow-hidden"
+    class="relative min-h-dvh md:min-h-screen flex flex-col items-center justify-center px-5 pb-16 md:pb-5 text-center overflow-x-clip"
   >
     <!-- Sol que sube detrás del título -->
     <div class="hero-sun absolute left-1/2 top-[18%] -translate-x-1/2 size-[min(70vw,520px)] rounded-full -z-10"></div>
@@ -90,6 +183,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
     </div>
     <p
       id="countdown"
+      data-countdown
       class="hero-countdown mt-[2vh] font-display font-bold uppercase tracking-widest text-pink-200 text-sm md:text-base min-h-6"
     >
     </p>
@@ -163,7 +257,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
       <iframe
         title={`Mapa: ${address}`}
         src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
-        class="w-full h-72 md:h-96 block"
+        class="map-embed w-full h-72 md:h-96 block"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
@@ -229,8 +323,11 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
     </ul>
   </section>
 
+  <!-- Mapa interactivo -->
+  <LeonidaMap />
+
   <!-- Cierre: video destacado -->
-  <section id="trailer-final" class="relative isolate overflow-hidden py-24 md:py-32 px-5">
+  <section id="trailer-final" class="relative isolate overflow-x-clip py-24 md:py-32 px-5">
     <!-- fondo: el mismo atardecer del video, desenfocado -->
     <div class="absolute inset-0 -z-10">
       <img
@@ -287,7 +384,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
           <div class="final-video-frame">
             <video
               id="final-video"
-              class="block w-full h-full object-cover"
+              class="pointer-events-none block w-full h-full object-cover"
               src="/vice-city-invasion.mp4"
               poster="/vice-city-invasion-poster.jpg"
               muted
@@ -340,6 +437,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
       </div>
     </div>
   </section>
+  </div>
 
   <footer class="border-t border-pink-400/20 py-8 px-5 text-center">
     <a
@@ -354,7 +452,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
         alt="Plot Center"
         width="683"
         height="590"
-        class="mx-auto h-28 w-auto transition-transform group-hover:scale-105"
+        class="mx-auto h-16 w-auto md:h-28 transition-transform group-hover:scale-105"
       />
     </a>
   </footer>
@@ -451,6 +549,52 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
     box-shadow:
       0 0 12px rgba(255, 79, 180, 0.7),
       inset 0 0 12px rgba(255, 79, 180, 0.35);
+  }
+
+  /* El mapa no se queda con el dedo: el desliz sigue bajando la página */
+  .map-embed {
+    pointer-events: none;
+  }
+
+  .m-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.5rem;
+    border-radius: 999px;
+    padding: 0.85rem 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .m-btn-primary {
+    background: #ff3fa4;
+    box-shadow: 0 8px 24px rgba(255, 63, 164, 0.35);
+  }
+  .m-btn-ghost {
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    background: rgba(18, 10, 36, 0.45);
+  }
+  .m-card {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 4.75rem;
+    padding: 0.9rem 1rem;
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 79, 180, 0.4);
+  }
+
+  @media (max-width: 767px) {
+    .vice-title {
+      -webkit-text-stroke-width: 2px;
+      text-shadow:
+        0 3px 0 #1b1030,
+        0 8px 18px rgba(0, 0, 0, 0.4);
+    }
   }
 
   .twitch-icon {
@@ -741,14 +885,12 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
 
   gsap.registerPlugin(ScrollTrigger)
 
-  // En el teléfono el hero no se clava: el scroll es nativo y corto
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  const isMobile = window.matchMedia("(max-width: 900px)").matches
+  const isDesktop = window.matchMedia("(min-width: 768px)").matches
 
-  if (!reduceMotion && !isMobile) {
+  if (!reduceMotion && isDesktop) {
     const pinLength = () => window.innerHeight * 1.6
 
-    // Primero el pin, para que el resto de los triggers cuente su espacio
     ScrollTrigger.create({
       trigger: "#event-hero",
       start: "top top",
@@ -807,16 +949,41 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
         2.15
       )
       .from(".hero-countdown", { opacity: 0, y: 20, duration: 0.5 }, 2.6)
-      // pequeña pausa al final con todo armado
       .to({}, { duration: 0.4 })
 
-    // Loop suave del logo una vez armado
     gsap.to(".hero-logo-float", {
       y: -10,
       duration: 2.4,
       ease: "sine.inOut",
       yoyo: true,
       repeat: -1,
+    })
+
+    gsap.from(".final-video-wrap", {
+      scale: 0.7,
+      rotation: 18,
+      yPercent: 25,
+      opacity: 0,
+      ease: "power3.out",
+      scrollTrigger: { trigger: "#trailer-final", start: "top 85%", end: "top 25%", scrub: 1 },
+    })
+    gsap.from(".final-copy > *", {
+      x: -60,
+      opacity: 0,
+      stagger: 0.12,
+      duration: 0.9,
+      ease: "power3.out",
+      scrollTrigger: { trigger: "#trailer-final", start: "top 65%" },
+    })
+
+    gsap.utils.toArray<HTMLElement>("#evento [data-reveal]").forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: { trigger: el, start: "top 88%" },
+      })
     })
   }
 
@@ -844,51 +1011,24 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
     })
   }
 
-  if (!reduceMotion && !isMobile) {
-    gsap.from(".final-video-wrap", {
-      scale: 0.7,
-      rotation: 18,
-      yPercent: 25,
-      opacity: 0,
-      ease: "power3.out",
-      scrollTrigger: { trigger: "#trailer-final", start: "top 85%", end: "top 25%", scrub: 1 },
-    })
-    gsap.from(".final-copy > *", {
-      x: -60,
-      opacity: 0,
-      stagger: 0.12,
-      duration: 0.9,
-      ease: "power3.out",
-      scrollTrigger: { trigger: "#trailer-final", start: "top 65%" },
-    })
-  }
-
-  // Aparición de los bloques al hacer scroll (en móvil se ven de una, sin esperar al trigger)
-  if (!isMobile) {
-    gsap.utils.toArray<HTMLElement>("#evento [data-reveal]").forEach((el) => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: { trigger: el, start: "top 88%" },
-      })
-    })
-  }
-
   // Cuenta regresiva (19 al 22 de noviembre, hora de Argentina)
-  const countdown = document.getElementById("countdown")
-  if (countdown) {
+  const countdowns = document.querySelectorAll<HTMLElement>("[data-countdown]")
+  if (countdowns.length) {
     const now = new Date()
     const year = now.getFullYear()
     const start = new Date(`${year}-11-19T00:00:00-03:00`)
     const end = new Date(`${year}-11-23T00:00:00-03:00`)
     const days = Math.ceil((start.getTime() - now.getTime()) / 86_400_000)
-
-    if (now >= start && now < end) {
-      countdown.textContent = "¡Está pasando ahora! Te esperamos"
-    } else if (now < start) {
-      countdown.textContent = days === 1 ? "¡Falta 1 día!" : `Faltan ${days} días`
-    }
+    const label =
+      now >= start && now < end
+        ? "¡Está pasando ahora! Te esperamos"
+        : now < start
+          ? days === 1
+            ? "¡Falta 1 día!"
+            : `Faltan ${days} días`
+          : ""
+    countdowns.forEach((el) => {
+      el.textContent = label
+    })
   }
 </script>

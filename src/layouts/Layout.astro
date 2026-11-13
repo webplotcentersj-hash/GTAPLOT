@@ -153,11 +153,11 @@ const eventJsonLd = {
   html,
   body {
     background: #111;
-    overflow-x: hidden;
-    overscroll-behavior: none;
+    overflow-x: clip;
     color: white;
     margin: 0;
     width: 100%;
+    touch-action: pan-y;
   }
 
   .scroll-hint {
@@ -165,8 +165,8 @@ const eventJsonLd = {
     z-index: 50;
     left: 0;
     right: 0;
-    bottom: 0.85rem;
-    display: flex;
+    bottom: 1.25rem;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 0.35rem;
@@ -181,6 +181,13 @@ const eventJsonLd = {
     transition: opacity 0.35s ease;
   }
 
+  @media (min-width: 768px) {
+    .scroll-hint {
+      display: flex;
+      bottom: 6.5rem;
+    }
+  }
+
   .scroll-hint-chevron {
     width: 1.7rem;
     height: auto;
@@ -189,12 +196,6 @@ const eventJsonLd = {
 
   .scroll-hint.is-gone {
     opacity: 0;
-  }
-
-  @media (min-width: 901px) {
-    .scroll-hint {
-      bottom: 6.5rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {

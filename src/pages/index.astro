@@ -11,9 +11,9 @@ import EventLanding from "@/components/EventLanding.astro"
 
 <Layout>
   <!-- Espacio de scroll para la animación de la intro (en móvil se salta) -->
-  <div id="intro" class="h-[300vh]" aria-hidden="true"></div>
+  <div id="intro" class="h-[300vh] max-md:h-0" aria-hidden="true"></div>
 
-  <div id="logo-mask" class="fixed top-0 w-full h-screen">
+  <div id="logo-mask" class="fixed top-0 w-full h-screen max-md:hidden">
     <section>
       <picture
         id="hero-key"
@@ -37,7 +37,7 @@ import EventLanding from "@/components/EventLanding.astro"
 
   <div
     id="hero-chrome"
-    class="fixed flex flex-col items-center justify-between h-screen px-20 py-16 w-full"
+    class="fixed flex flex-col items-center justify-between h-screen px-20 py-16 w-full max-md:hidden"
   >
     <header class="flex justify-between w-full">
       <LogoVI
@@ -75,60 +75,49 @@ import EventLanding from "@/components/EventLanding.astro"
     mask-repeat: no-repeat;
     mask-size: clamp(5000vh, 3500%, 0vh);
   }
-
-  /* En el teléfono no hay intro de 3 pantallas: el evento arranca de una */
-  @media (max-width: 900px) {
-    #intro {
-      height: 0;
-    }
-    #logo-mask,
-    #hero-chrome {
-      display: none;
-    }
-  }
 </style>
 
 <script>
   import { gsap } from "gsap"
   import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-  const isMobile = window.matchMedia("(max-width: 900px)").matches
+  const isDesktop = window.matchMedia("(min-width: 768px)").matches
 
-  if (!isMobile) {
-  gsap.registerPlugin(ScrollTrigger)
+  if (isDesktop) {
+    gsap.registerPlugin(ScrollTrigger)
 
-  document.querySelectorAll<HTMLImageElement>("#logo-mask img").forEach((img) => {
-    if (img.dataset.src) img.src = img.dataset.src
-  })
+    document.querySelectorAll<HTMLImageElement>("#logo-mask img").forEach((img) => {
+      if (img.dataset.src) img.src = img.dataset.src
+    })
 
-  const tl = gsap.timeline({
-    ease: "power2.out",
-    scrollTrigger: {
-      trigger: "#intro",
-      start: "top top",
-      end: "bottom bottom",
-      scrub: 1,
-    },
-  })
-
-  tl.to("#hero-key", { duration: 1, scale: 1 })
-    .to("#hero-key-logo", { opacity: 0 }, "<")
-    .to("#hero-footer", { opacity: 0 }, "<")
-    .to("#hero-play-button", { opacity: 0 }, "<")
-    .to(
-      "#logo-mask",
-      {
-        maskSize: "clamp(20vh, 25%, 30vh)",
+    const tl = gsap.timeline({
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#intro",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1,
       },
-      0.15
-    )
-    .to(
-      "#hero-key",
-      {
-        opacity: 0,
-        duration: 0.2,
-      },
-      0.4
-    )
+    })
+
+    tl.to("#hero-key", { duration: 1, scale: 1 })
+      .to("#hero-key-logo", { opacity: 0 }, "<")
+      .to("#hero-footer", { opacity: 0 }, "<")
+      .to("#hero-play-button", { opacity: 0 }, "<")
+      .to(
+        "#logo-mask",
+        {
+          maskSize: "clamp(20vh, 25%, 30vh)",
+        },
+        0.15
+      )
+      .to(
+        "#hero-key",
+        {
+          opacity: 0,
+          duration: 0.2,
+        },
+        0.4
+      )
   }
 </script>
