@@ -1,0 +1,877 @@
+---
+import FullLogo from "@/assets/full-logo.webp"
+import HeroKeyBackground from "@/assets/hero-key-background.webp"
+import PS5Logo from "@/assets/ps5.svg"
+import { Image } from "astro:assets"
+import MundoPlay from "@/assets/sponsors/mundo-play.png"
+import PlotCenter from "@/assets/sponsors/plot-center.png"
+import TecnoBytes from "@/assets/sponsors/tecno-bytes.png"
+import SolucionesDigitales from "@/assets/sponsors/soluciones-digitales.png"
+import LagEsports from "@/assets/sponsors/lag-esports.png"
+
+const sponsors = [
+  { name: "Mundo Play", logo: MundoPlay },
+  { name: "Plot Center", logo: PlotCenter },
+  { name: "Tecno Bytes", logo: TecnoBytes },
+  { name: "Soluciones Digitales", logo: SolucionesDigitales },
+  { name: "LAG Esports", logo: LagEsports },
+]
+
+const address = "Libertador 580 Este, San Juan"
+const mapsQuery = encodeURIComponent(`${address}, Argentina`)
+const twitchUrl = "https://www.twitch.tv/ismamansur"
+
+---
+
+<main id="evento" class="relative z-10 isolate overflow-hidden bg-[#120a24] text-white">
+  <!-- Fondo: atardecer de Vice City -->
+  <div class="absolute inset-0 -z-10">
+    <img
+      src={HeroKeyBackground.src}
+      alt=""
+      class="w-full h-full object-cover object-[70%_center] opacity-35"
+      loading="lazy"
+    />
+    <div class="absolute inset-0 sunset"></div>
+    <div class="absolute inset-0 grid-floor"></div>
+  </div>
+
+  <!-- Encabezado animado (motion con scroll) -->
+  <section
+    id="event-hero"
+    class="relative h-screen min-h-[560px] flex flex-col items-center justify-center px-5 text-center overflow-hidden"
+  >
+    <!-- Sol que sube detrás del título -->
+    <div class="hero-sun absolute left-1/2 top-[18%] -translate-x-1/2 size-[min(70vw,520px)] rounded-full -z-10"></div>
+    <!-- Barrido de luz neón -->
+    <div class="hero-sweep absolute inset-y-0 -left-1/2 w-1/3 -z-10"></div>
+
+    <h1 class="leading-none" aria-label="Vice City: La Invasión">
+      <span
+        class="vice-title block font-display font-black uppercase text-[min(12vw,14vh,8.5rem)] [perspective:600px]"
+        aria-hidden="true"
+      >
+        {
+          "VICE CITY".split("").map((c) => (
+            <span class="hero-char inline-block">{c === " " ? " " : c}</span>
+          ))
+        }
+      </span>
+      <span
+        class="invasion hero-invasion block font-script text-[min(9vw,10vh,6rem)] -mt-2 md:-mt-5 -rotate-6"
+        aria-hidden="true"
+      >
+        La Invasión
+      </span>
+    </h1>
+
+    <p
+      class="hero-kicker mt-[3vh] font-display font-extrabold uppercase tracking-[0.2em] text-sm md:text-xl drop-shadow"
+    >
+      Viví el lanzamiento de
+    </p>
+
+    <div class="hero-logo-float mt-[1.5vh]">
+      <img
+        src={FullLogo.src}
+        alt="Grand Theft Auto VI"
+        class="hero-logo mx-auto h-[min(30vh,300px)] w-auto drop-shadow-[0_10px_40px_rgba(236,72,153,.55)]"
+      />
+    </div>
+
+    <div class="hero-date date-strip mx-auto mt-[3vh] max-w-3xl w-full">
+      <p
+        class="font-display font-black italic uppercase text-[min(6vw,6vh,3.25rem)] leading-tight"
+      >
+        19 al 22 de noviembre
+      </p>
+    </div>
+    <p
+      id="countdown"
+      class="hero-countdown mt-[2vh] font-display font-bold uppercase tracking-widest text-pink-200 text-sm md:text-base min-h-6"
+    >
+    </p>
+  </section>
+
+  <!-- Qué hay -->
+  <section class="max-w-3xl mx-auto px-5 py-8">
+    <div
+      data-reveal
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-0 sm:divide-x divide-pink-400/60"
+    >
+      <div class="feature">
+        <div class="feature-icon">
+          <PS5Logo class="w-16 text-white" />
+        </div>
+        <p class="font-display font-bold text-xl leading-tight">
+          Jugá GTA VI<br />en PS5
+        </p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg
+            viewBox="0 0 24 24"
+            class="size-12"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+            <path d="M12 8v13"></path>
+            <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+            <path
+              d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"
+            ></path>
+          </svg>
+        </div>
+        <p class="font-display font-bold text-xl leading-tight">
+          Sorteos<br />y premios
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Entrada libre -->
+  <section class="px-5 py-6 text-center">
+    <div data-reveal class="free-strip mx-auto max-w-2xl">
+      <p
+        class="font-display font-black italic uppercase text-[clamp(1.25rem,4.5vw,2.25rem)] text-[#1b1030]"
+      >
+        Entrada libre y gratuita
+      </p>
+    </div>
+  </section>
+
+  <!-- Ubicación -->
+  <section class="max-w-4xl mx-auto px-5 py-10">
+    <div data-reveal class="text-center">
+      <p class="inline-flex items-center gap-3 font-display font-bold text-2xl md:text-3xl">
+        <svg viewBox="0 0 24 24" class="size-8 text-pink-500 shrink-0" fill="currentColor" aria-hidden="true">
+          <path
+            d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"
+          ></path>
+        </svg>
+        {address}
+      </p>
+    </div>
+    <div data-reveal class="neon-box mt-6 overflow-hidden rounded-2xl">
+      <iframe
+        title={`Mapa: ${address}`}
+        src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}
+        class="w-full h-72 md:h-96 block"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div data-reveal class="mt-5 text-center">
+      <a
+        href={`https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`}
+        target="_blank"
+        rel="noopener"
+        class="inline-block rounded-full bg-pink-500 hover:bg-pink-400 transition-colors px-7 py-3 font-display font-extrabold uppercase tracking-wider text-sm"
+      >
+        Cómo llegar
+      </a>
+    </div>
+  </section>
+
+  <!-- Twitch -->
+  <section class="max-w-3xl mx-auto px-5 py-10">
+    <a
+      data-reveal
+      href={twitchUrl}
+      target="_blank"
+      rel="noopener"
+      class="group flex flex-col sm:flex-row items-center justify-center gap-5"
+      aria-label="Ver la transmisión en twitch.tv/ismamansur"
+    >
+      <span class="twitch-icon">
+        <svg viewBox="0 0 24 24" class="size-14" fill="currentColor" aria-hidden="true">
+          <path
+            d="M4.3 3 3 6.4v13.1h4.5V22h2.6l2.5-2.5h3.6l4.9-4.9V3H4.3Zm15 10.8-2.8 2.8h-4.5l-2.4 2.4v-2.4H5.8V4.8h13.5v9ZM16.6 7.6h-1.8v5.3h1.8V7.6Zm-4.9 0H9.9v5.3h1.8V7.6Z"
+          ></path>
+        </svg>
+      </span>
+      <span
+        class="twitch-pill font-display font-extrabold text-xl md:text-3xl group-hover:scale-105 transition-transform"
+      >
+        twitch.tv/ismamansur
+      </span>
+    </a>
+  </section>
+
+  <!-- Sponsors -->
+  <section class="max-w-6xl mx-auto px-5 pt-6 pb-20">
+    <p
+      data-reveal
+      class="text-center font-display font-bold uppercase tracking-[0.3em] text-pink-200/80 text-xs mb-6"
+    >
+      Acompañan
+    </p>
+    <ul data-reveal class="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+      {
+        sponsors.map((s) => (
+          <li class="sponsor-logo w-[110px] sm:w-[130px]">
+            <Image
+              src={s.logo}
+              alt={s.name}
+              width={260}
+              class="w-full h-auto block"
+              loading="lazy"
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Cierre: video destacado -->
+  <section id="trailer-final" class="relative isolate overflow-hidden py-24 md:py-32 px-5">
+    <!-- fondo: el mismo atardecer del video, desenfocado -->
+    <div class="absolute inset-0 -z-10">
+      <img
+        src="/vice-city-invasion-poster.jpg"
+        alt=""
+        class="w-full h-full object-cover scale-110 blur-2xl opacity-60"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-[#120a24] via-[#120a24]/40 to-[#120a24]"></div>
+    </div>
+    <div class="final-blob final-blob--pink" aria-hidden="true"></div>
+    <div class="final-blob final-blob--cyan" aria-hidden="true"></div>
+
+    <div
+      class="max-w-6xl mx-auto grid lg:grid-cols-[1.1fr_1fr] gap-14 lg:gap-10 items-center"
+    >
+      <!-- Texto -->
+      <div class="final-copy text-center lg:text-left order-2 lg:order-1">
+        <p
+          class="font-display font-bold uppercase tracking-[0.35em] text-xs md:text-sm text-cyan-300"
+        >
+          Nos vemos en Vice City
+        </p>
+        <h2
+          class="final-title mt-4 font-display font-black italic uppercase leading-[0.9] text-[clamp(3rem,8vw,6.5rem)]"
+        >
+          La invasión<br />ya empezó
+        </h2>
+        <p class="mt-6 font-display font-bold text-lg md:text-2xl text-white/90">
+          19 al 22 de noviembre · {address}
+        </p>
+        <p class="mt-2 font-display text-pink-200/80 text-sm md:text-base">
+          Entrada libre y gratuita. Traé a tu banda.
+        </p>
+
+        <div class="mt-9 flex flex-wrap gap-4 justify-center lg:justify-start">
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`}
+            target="_blank"
+            rel="noopener"
+            class="final-cta final-cta--primary"
+          >
+            Cómo llegar
+          </a>
+          <a href={twitchUrl} target="_blank" rel="noopener" class="final-cta final-cta--ghost">
+            Seguí la transmisión
+          </a>
+        </div>
+      </div>
+
+      <!-- Video -->
+      <div class="order-1 lg:order-2 flex justify-center">
+        <div class="final-video-wrap">
+          <div class="final-video-frame">
+            <video
+              id="final-video"
+              class="block w-full h-full object-cover"
+              src="/vice-city-invasion.mp4"
+              poster="/vice-city-invasion-poster.jpg"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="Video de Vice City: La Invasión"></video>
+
+            <span class="final-live" aria-hidden="true">
+              <span class="final-live-dot"></span> Vice City
+            </span>
+
+            <button
+              id="final-sound"
+              type="button"
+              class="final-sound"
+              aria-pressed="false"
+              aria-label="Activar sonido"
+            >
+              <svg
+                class="icon-muted size-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M11 5 6 9H2v6h4l5 4V5Z"></path>
+                <path d="m23 9-6 6M17 9l6 6"></path>
+              </svg>
+              <svg
+                class="icon-sound size-5 hidden"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M11 5 6 9H2v6h4l5 4V5Z"></path>
+                <path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"></path>
+              </svg>
+              <span class="final-sound-label">Sonido</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-pink-400/20 py-8 px-5 text-center">
+    <a
+      href="https://plotcenter.com.ar/"
+      target="_blank"
+      rel="noopener"
+      class="inline-flex flex-col items-center gap-1 group"
+    >
+      <span class="font-display font-bold uppercase tracking-[0.3em] text-[0.65rem] text-pink-200/70">
+        Tecnología de
+      </span>
+      <span class="font-display text-xs text-white/60 group-hover:text-white transition-colors">
+        plotcenter.com.ar
+      </span>
+    </a>
+  </footer>
+</main>
+
+<style>
+  .sunset {
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255, 140, 90, 0.35), transparent 60%),
+      linear-gradient(
+        180deg,
+        rgba(255, 94, 160, 0.75) 0%,
+        rgba(173, 52, 160, 0.82) 30%,
+        rgba(70, 24, 110, 0.92) 60%,
+        #120a24 100%
+      );
+  }
+
+  .grid-floor {
+    background-image:
+      linear-gradient(rgba(255, 105, 200, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 105, 200, 0.12) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(to bottom, transparent 55%, black);
+  }
+
+  .vice-title {
+    color: #fff;
+    letter-spacing: 0.02em;
+    -webkit-text-stroke: 3px #1b1030;
+    paint-order: stroke fill;
+    text-shadow:
+      0 6px 0 #1b1030,
+      0 12px 30px rgba(0, 0, 0, 0.45);
+  }
+
+  .invasion {
+    color: #ff4fb4;
+    text-shadow:
+      0 0 6px #ff4fb4,
+      0 0 22px rgba(255, 79, 180, 0.8),
+      0 4px 0 #3a0c3d;
+  }
+
+  .date-strip {
+    background: linear-gradient(90deg, #ff3fa4, #ff6fc0 50%, #ff3fa4);
+    padding: 0.6rem 1.5rem;
+    transform: skewX(-8deg) rotate(-1.5deg);
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(255, 63, 164, 0.45);
+  }
+  .date-strip > p {
+    transform: skewX(8deg);
+  }
+
+  .free-strip {
+    background: linear-gradient(90deg, #ffc93c, #ffe066 50%, #ffc93c);
+    padding: 0.5rem 1.5rem;
+    transform: skewX(-8deg) rotate(1deg);
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(255, 201, 60, 0.35);
+  }
+  .free-strip > p {
+    transform: skewX(8deg);
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+  .feature-icon {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    flex-shrink: 0;
+  }
+
+  .neon-box {
+    border: 2px solid #ff4fb4;
+    box-shadow:
+      0 0 12px rgba(255, 79, 180, 0.7),
+      inset 0 0 12px rgba(255, 79, 180, 0.35);
+  }
+
+  .twitch-icon {
+    display: grid;
+    place-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 1.25rem;
+    background: #9146ff;
+    box-shadow: 0 0 30px rgba(145, 70, 255, 0.7);
+    transform: rotate(-6deg);
+  }
+
+  .twitch-pill {
+    border: 3px solid #ff4fb4;
+    border-radius: 999px;
+    padding: 0.6rem 1.75rem;
+    background: rgba(18, 10, 36, 0.75);
+    box-shadow:
+      0 0 14px rgba(255, 79, 180, 0.8),
+      inset 0 0 14px rgba(255, 79, 180, 0.4);
+  }
+
+  .sponsor-logo {
+    border-radius: 0.6rem;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(255, 79, 180, 0.45);
+    transition:
+      transform 0.3s,
+      box-shadow 0.3s;
+  }
+  .hero-sun {
+    background: radial-gradient(
+      circle,
+      rgba(255, 214, 120, 0.9) 0%,
+      rgba(255, 120, 140, 0.55) 40%,
+      rgba(255, 79, 180, 0) 70%
+    );
+    filter: blur(6px);
+  }
+
+  .hero-sweep {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 79, 180, 0.25),
+      transparent
+    );
+    transform: skewX(-20deg);
+    pointer-events: none;
+  }
+
+  .hero-invasion {
+    animation: neon-flicker 4s infinite;
+  }
+
+  @keyframes neon-flicker {
+    0%,
+    18%,
+    22%,
+    25%,
+    53%,
+    57%,
+    100% {
+      text-shadow:
+        0 0 6px #ff4fb4,
+        0 0 22px rgba(255, 79, 180, 0.8),
+        0 0 48px rgba(255, 79, 180, 0.5),
+        0 4px 0 #3a0c3d;
+    }
+    20%,
+    24%,
+    55% {
+      text-shadow: 0 4px 0 #3a0c3d;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-invasion {
+      animation: none;
+    }
+  }
+
+  /* ---------- Cierre con video ---------- */
+  .final-blob {
+    position: absolute;
+    width: 42vw;
+    max-width: 560px;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.45;
+    z-index: -1;
+    pointer-events: none;
+    animation: blob-drift 12s ease-in-out infinite alternate;
+  }
+  .final-blob--pink {
+    background: #ff3fa4;
+    top: 5%;
+    right: -10%;
+  }
+  .final-blob--cyan {
+    background: #22d3ee;
+    bottom: 0;
+    left: -12%;
+    animation-delay: -6s;
+  }
+  @keyframes blob-drift {
+    to {
+      transform: translate(6vw, -4vh) scale(1.15);
+    }
+  }
+
+  .final-title {
+    background: linear-gradient(100deg, #fff 0%, #ff7cc6 30%, #ffb35c 55%, #22d3ee 80%, #fff 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 6px 24px rgba(255, 63, 164, 0.45));
+    animation: title-shine 6s linear infinite;
+  }
+  @keyframes title-shine {
+    to {
+      background-position: -250% 0;
+    }
+  }
+
+  .final-cta {
+    display: inline-block;
+    border-radius: 9999px;
+    padding: 0.95rem 2rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.9rem;
+    transition:
+      transform 0.25s,
+      box-shadow 0.25s,
+      background-color 0.25s;
+  }
+  .final-cta:hover {
+    transform: translateY(-3px) scale(1.03);
+  }
+  .final-cta--primary {
+    background: #ff3fa4;
+    box-shadow: 0 0 24px rgba(255, 63, 164, 0.7);
+  }
+  .final-cta--primary:hover {
+    box-shadow: 0 0 40px rgba(255, 63, 164, 1);
+  }
+  .final-cta--ghost {
+    border: 2px solid #9146ff;
+    background: rgba(145, 70, 255, 0.15);
+    box-shadow: 0 0 18px rgba(145, 70, 255, 0.5);
+  }
+  .final-cta--ghost:hover {
+    background: rgba(145, 70, 255, 0.35);
+  }
+
+  .final-video-wrap {
+    position: relative;
+    width: min(78vw, 340px);
+    aspect-ratio: 9 / 16;
+    padding: 4px;
+    border-radius: 2.2rem;
+    overflow: hidden;
+    transform: rotate(4deg);
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow:
+      0 0 40px rgba(255, 63, 164, 0.55),
+      0 0 120px rgba(34, 211, 238, 0.25),
+      0 30px 80px rgba(0, 0, 0, 0.6);
+  }
+  .final-video-wrap:hover {
+    transform: rotate(0deg) scale(1.03);
+  }
+  /* borde neón que gira */
+  .final-video-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background: conic-gradient(from 0deg, #ff3fa4, #ffb35c, #22d3ee, #9146ff, #ff3fa4);
+    animation: spin-border 4s linear infinite;
+  }
+  @keyframes spin-border {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+  .final-video-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: calc(2.2rem - 4px);
+    overflow: hidden;
+    background: #120a24;
+  }
+  /* líneas de TV sutiles */
+  .final-video-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.04) 0 1px,
+      transparent 1px 3px
+    );
+    mix-blend-mode: overlay;
+  }
+
+  .final-live {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(18, 10, 36, 0.65);
+    backdrop-filter: blur(6px);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .final-live-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: #ff3fa4;
+    box-shadow: 0 0 8px #ff3fa4;
+    animation: live-blink 1.2s ease-in-out infinite;
+  }
+  @keyframes live-blink {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  .final-sound {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 9999px;
+    background: rgba(18, 10, 36, 0.7);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .final-sound:hover {
+    background: rgba(255, 63, 164, 0.8);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .final-blob,
+    .final-title,
+    .final-video-wrap::before,
+    .final-live-dot {
+      animation: none;
+    }
+  }
+
+  .sponsor-logo:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 24px rgba(255, 79, 180, 0.9);
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap"
+  import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  // Motion del encabezado: se fija en pantalla y se arma con el scroll
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  if (!reduceMotion) {
+    const pinLength = () => window.innerHeight * 1.6
+
+    // Primero el pin, para que el resto de los triggers cuente su espacio
+    ScrollTrigger.create({
+      trigger: "#event-hero",
+      start: "top top",
+      end: () => `+=${pinLength()}`,
+      pin: true,
+    })
+
+    const heroTl = gsap.timeline({
+      defaults: { ease: "power3.out" },
+      scrollTrigger: {
+        trigger: "#event-hero",
+        start: "top 70%",
+        end: () => `+=${window.innerHeight * 0.7 + pinLength() * 0.85}`,
+        scrub: 1,
+      },
+    })
+
+    heroTl
+      .from(".hero-sun", { yPercent: 60, scale: 0.4, opacity: 0, duration: 1.2 }, 0)
+      .from(
+        ".hero-char",
+        {
+          opacity: 0,
+          scale: 4,
+          yPercent: () => gsap.utils.random(-120, 120),
+          rotationX: -90,
+          filter: "blur(12px)",
+          stagger: { each: 0.06, from: "center" },
+          duration: 0.9,
+        },
+        0.1
+      )
+      .fromTo(
+        ".hero-invasion",
+        { clipPath: "inset(0 100% 0 0)", opacity: 0, scale: 1.3 },
+        { clipPath: "inset(0 0% 0 0)", opacity: 1, scale: 1, duration: 0.8, ease: "power2.inOut" },
+        0.75
+      )
+      .from(".hero-sweep", { xPercent: 0, duration: 0.01 }, 0.75)
+      .to(".hero-sweep", { xPercent: 600, duration: 1, ease: "none" }, 0.75)
+      .from(".hero-kicker", { opacity: 0, y: 30, letterSpacing: "0.8em", duration: 0.6 }, 1.25)
+      .from(
+        ".hero-logo",
+        {
+          opacity: 0,
+          scale: 3,
+          rotation: -12,
+          filter: "blur(24px)",
+          duration: 1.1,
+        },
+        1.35
+      )
+      .from(
+        ".hero-date",
+        { xPercent: -140, skewX: -35, opacity: 0, duration: 0.8, ease: "back.out(1.4)" },
+        2.15
+      )
+      .from(".hero-countdown", { opacity: 0, y: 20, duration: 0.5 }, 2.6)
+      // pequeña pausa al final con todo armado
+      .to({}, { duration: 0.4 })
+
+    // Loop suave del logo una vez armado
+    gsap.to(".hero-logo-float", {
+      y: -10,
+      duration: 2.4,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+    })
+  }
+
+  // Cierre: video que se reproduce solo cuando está en pantalla
+  const finalVideo = document.getElementById("final-video") as HTMLVideoElement | null
+  const soundBtn = document.getElementById("final-sound")
+
+  if (finalVideo) {
+    finalVideo.muted = true
+    new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) finalVideo.play().catch(() => {})
+        else finalVideo.pause()
+      },
+      { threshold: 0.25 }
+    ).observe(finalVideo)
+
+    soundBtn?.addEventListener("click", () => {
+      finalVideo.muted = !finalVideo.muted
+      if (!finalVideo.muted) finalVideo.play().catch(() => {})
+      soundBtn.setAttribute("aria-pressed", String(!finalVideo.muted))
+      soundBtn.setAttribute("aria-label", finalVideo.muted ? "Activar sonido" : "Silenciar")
+      soundBtn.querySelector(".icon-muted")?.classList.toggle("hidden", !finalVideo.muted)
+      soundBtn.querySelector(".icon-sound")?.classList.toggle("hidden", finalVideo.muted)
+    })
+  }
+
+  if (!reduceMotion) {
+    gsap.from(".final-video-wrap", {
+      scale: 0.7,
+      rotation: 18,
+      yPercent: 25,
+      opacity: 0,
+      ease: "power3.out",
+      scrollTrigger: { trigger: "#trailer-final", start: "top 85%", end: "top 25%", scrub: 1 },
+    })
+    gsap.from(".final-copy > *", {
+      x: -60,
+      opacity: 0,
+      stagger: 0.12,
+      duration: 0.9,
+      ease: "power3.out",
+      scrollTrigger: { trigger: "#trailer-final", start: "top 65%" },
+    })
+  }
+
+  // Aparición de los bloques al hacer scroll
+  gsap.utils.toArray<HTMLElement>("#evento [data-reveal]").forEach((el) => {
+    gsap.from(el, {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: "power2.out",
+      scrollTrigger: { trigger: el, start: "top 88%" },
+    })
+  })
+
+  // Cuenta regresiva (19 al 22 de noviembre, hora de Argentina)
+  const countdown = document.getElementById("countdown")
+  if (countdown) {
+    const now = new Date()
+    const year = now.getFullYear()
+    const start = new Date(`${year}-11-19T00:00:00-03:00`)
+    const end = new Date(`${year}-11-23T00:00:00-03:00`)
+    const days = Math.ceil((start.getTime() - now.getTime()) / 86_400_000)
+
+    if (now >= start && now < end) {
+      countdown.textContent = "¡Está pasando ahora! Te esperamos"
+    } else if (now < start) {
+      countdown.textContent = days === 1 ? "¡Falta 1 día!" : `Faltan ${days} días`
+    }
+  }
+</script>

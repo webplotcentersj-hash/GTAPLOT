@@ -6,9 +6,13 @@ import HeroKeyBackground from "@/assets/hero-key-background.webp"
 import LogoVI from "@/assets/logo-vi.svg"
 import PlayButtonIcon from "@/assets/play-button.svg"
 import LogoCutted from "@/assets/logo-cutted.svg"
+import EventLanding from "@/components/EventLanding.astro"
 ---
 
 <Layout>
+  <!-- Espacio de scroll para la animación de la intro -->
+  <div id="intro" class="h-[300vh]" aria-hidden="true"></div>
+
   <div id="logo-mask" class="fixed top-0 w-full h-screen">
     <section>
       <picture
@@ -58,6 +62,8 @@ import LogoCutted from "@/assets/logo-cutted.svg"
       </span>
     </footer>
   </div>
+
+  <EventLanding />
 </Layout>
 
 <style>
@@ -79,6 +85,9 @@ import LogoCutted from "@/assets/logo-cutted.svg"
   const tl = gsap.timeline({
     ease: "power2.out",
     scrollTrigger: {
+      trigger: "#intro",
+      start: "top top",
+      end: "bottom bottom",
       scrub: 1,
     },
   })

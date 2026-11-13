@@ -12,6 +12,7 @@
     "@tailwindcss/vite": "^4.1.9",
     "astro": "^5.9.2",
     "gsap": "^3.13.0",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.1.9"
   }
 }
