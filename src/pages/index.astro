@@ -10,7 +10,7 @@ import EventLanding from "@/components/EventLanding.astro"
 ---
 
 <Layout>
-  <!-- Espacio de scroll para la animación de la intro -->
+  <!-- Espacio de scroll para la animación de la intro (en móvil se salta) -->
   <div id="intro" class="h-[300vh]" aria-hidden="true"></div>
 
   <div id="logo-mask" class="fixed top-0 w-full h-screen">
@@ -22,13 +22,13 @@ import EventLanding from "@/components/EventLanding.astro"
         <img
           alt="GTA 6 Logo"
           id="hero-key-logo"
-          src={HeroKeyLogo.src}
+          data-src={HeroKeyLogo.src}
           class="absolute w-full h-full object-cover"
         />
         <img
           alt="Two armed characters standing on a dock with a Miami-like cityscape behind them, promoting GTA 6."
           id="hero-key-background"
-          src={HeroKeyBackground.src}
+          data-src={HeroKeyBackground.src}
           class="w-full h-full object-cover"
         />
       </picture>
@@ -36,6 +36,7 @@ import EventLanding from "@/components/EventLanding.astro"
   </div>
 
   <div
+    id="hero-chrome"
     class="fixed flex flex-col items-center justify-between h-screen px-20 py-16 w-full"
   >
     <header class="flex justify-between w-full">
@@ -74,13 +75,31 @@ import EventLanding from "@/components/EventLanding.astro"
     mask-repeat: no-repeat;
     mask-size: clamp(5000vh, 3500%, 0vh);
   }
+
+  /* En el teléfono no hay intro de 3 pantallas: el evento arranca de una */
+  @media (max-width: 900px) {
+    #intro {
+      height: 0;
+    }
+    #logo-mask,
+    #hero-chrome {
+      display: none;
+    }
+  }
 </style>
 
 <script>
   import { gsap } from "gsap"
   import { ScrollTrigger } from "gsap/ScrollTrigger"
 
+  const isMobile = window.matchMedia("(max-width: 900px)").matches
+
+  if (!isMobile) {
   gsap.registerPlugin(ScrollTrigger)
+
+  document.querySelectorAll<HTMLImageElement>("#logo-mask img").forEach((img) => {
+    if (img.dataset.src) img.src = img.dataset.src
+  })
 
   const tl = gsap.timeline({
     ease: "power2.out",
@@ -111,4 +130,5 @@ import EventLanding from "@/components/EventLanding.astro"
       },
       0.4
     )
+  }
 </script>

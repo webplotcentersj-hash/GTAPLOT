@@ -30,7 +30,9 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
       src={HeroKeyBackground.src}
       alt=""
       class="w-full h-full object-cover object-[70%_center] opacity-80"
-      loading="lazy"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
     />
     <div class="absolute inset-0 sunset"></div>
     <div class="absolute inset-0 grid-floor"></div>
@@ -39,7 +41,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
   <!-- Encabezado animado (motion con scroll) -->
   <section
     id="event-hero"
-    class="relative h-screen min-h-[560px] flex flex-col items-center justify-center px-5 text-center overflow-hidden"
+    class="relative h-dvh md:h-screen md:min-h-[560px] flex flex-col items-center justify-center px-5 pb-16 md:pb-5 text-center overflow-hidden"
   >
     <!-- Sol que sube detrás del título -->
     <div class="hero-sun absolute left-1/2 top-[18%] -translate-x-1/2 size-[min(70vw,520px)] rounded-full -z-10"></div>
@@ -48,7 +50,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
 
     <h1 class="leading-none" aria-label="Vice City: La Invasión">
       <span
-        class="vice-title block font-display font-black uppercase text-[min(12vw,14vh,8.5rem)] [perspective:600px]"
+        class="vice-title block font-display font-black uppercase text-[min(8.4vw,8.5rem)] md:text-[min(12vw,14vh,8.5rem)] [perspective:600px]"
         aria-hidden="true"
       >
         {
@@ -75,13 +77,13 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
       <img
         src={FullLogo.src}
         alt="Grand Theft Auto VI"
-        class="hero-logo mx-auto h-[min(30vh,300px)] w-auto drop-shadow-[0_10px_40px_rgba(236,72,153,.55)]"
+        class="hero-logo mx-auto h-[min(16dvh,130px)] md:h-[min(30vh,300px)] w-auto drop-shadow-[0_10px_40px_rgba(236,72,153,.55)]"
       />
     </div>
 
-    <div class="hero-date date-strip mx-auto mt-[3vh] max-w-3xl w-full">
+    <div class="hero-date date-strip mx-auto mt-[3vh] w-fit max-w-full md:max-w-3xl">
       <p
-        class="font-display font-black italic uppercase text-[min(6vw,6vh,3.25rem)] leading-tight"
+        class="font-display font-black italic uppercase text-[clamp(0.78rem,3.5vw,3.25rem)] md:text-[min(6vw,6vh,3.25rem)] leading-tight whitespace-nowrap"
       >
         19 al 22 de noviembre
       </p>
@@ -288,11 +290,10 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
               class="block w-full h-full object-cover"
               src="/vice-city-invasion.mp4"
               poster="/vice-city-invasion-poster.jpg"
-              autoplay
               muted
               loop
               playsinline
-              preload="metadata"
+              preload="none"
               aria-label="Video de Vice City: La Invasión"></video>
 
             <span class="final-live" aria-hidden="true">
@@ -345,14 +346,16 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
       href="https://plotcenter.com.ar/"
       target="_blank"
       rel="noopener"
-      class="inline-flex flex-col items-center gap-1 group"
+      class="inline-block group"
+      aria-label="Plot Center"
     >
-      <span class="font-display font-bold uppercase tracking-[0.3em] text-[0.65rem] text-pink-200/70">
-        Tecnología de
-      </span>
-      <span class="font-display text-xs text-white/60 group-hover:text-white transition-colors">
-        plotcenter.com.ar
-      </span>
+      <img
+        src="/plot-center-logo.png"
+        alt="Plot Center"
+        width="683"
+        height="590"
+        class="mx-auto h-28 w-auto transition-transform group-hover:scale-105"
+      />
     </a>
   </footer>
 </main>
@@ -405,6 +408,17 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
   }
   .date-strip > p {
     transform: skewX(8deg);
+  }
+
+  @media (max-width: 900px) {
+    .date-strip {
+      padding-left: 0.65rem;
+      padding-right: 0.65rem;
+      transform: skewX(-5deg) rotate(-1deg);
+    }
+    .date-strip > p {
+      transform: skewX(5deg);
+    }
   }
 
   .free-strip {
@@ -727,10 +741,11 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
 
   gsap.registerPlugin(ScrollTrigger)
 
-  // Motion del encabezado: se fija en pantalla y se arma con el scroll
+  // En el teléfono el hero no se clava: el scroll es nativo y corto
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  const isMobile = window.matchMedia("(max-width: 900px)").matches
 
-  if (!reduceMotion) {
+  if (!reduceMotion && !isMobile) {
     const pinLength = () => window.innerHeight * 1.6
 
     // Primero el pin, para que el resto de los triggers cuente su espacio
@@ -829,7 +844,7 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
     })
   }
 
-  if (!reduceMotion) {
+  if (!reduceMotion && !isMobile) {
     gsap.from(".final-video-wrap", {
       scale: 0.7,
       rotation: 18,
@@ -848,16 +863,18 @@ const twitchUrl = "https://www.twitch.tv/ismamansur"
     })
   }
 
-  // Aparición de los bloques al hacer scroll
-  gsap.utils.toArray<HTMLElement>("#evento [data-reveal]").forEach((el) => {
-    gsap.from(el, {
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: { trigger: el, start: "top 88%" },
+  // Aparición de los bloques al hacer scroll (en móvil se ven de una, sin esperar al trigger)
+  if (!isMobile) {
+    gsap.utils.toArray<HTMLElement>("#evento [data-reveal]").forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: { trigger: el, start: "top 88%" },
+      })
     })
-  })
+  }
 
   // Cuenta regresiva (19 al 22 de noviembre, hora de Argentina)
   const countdown = document.getElementById("countdown")

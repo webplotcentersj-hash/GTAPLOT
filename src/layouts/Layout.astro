@@ -1,6 +1,4 @@
 ---
-import KeepScrolling from "@/assets/keep-scrolling.svg"
-
 // Todo apunta a Plot Center (definido como `site` en astro.config.mjs)
 const siteUrl = (Astro.site ?? new URL("https://plotcenter.com.ar/")).href
 const ogImage = new URL("/og-image.jpg", siteUrl).href
@@ -52,7 +50,8 @@ const eventJsonLd = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/plot-center-logo.png" />
+    <link rel="apple-touch-icon" href="/plot-center-logo.png" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Plot Center" />
@@ -94,9 +93,29 @@ const eventJsonLd = {
   </head>
   <body>
     <slot />
-    <KeepScrolling
-      class="fixed bottom-3 right-0 left-0 mx-auto text-pink-300 drop-shadow-2xl animate-bounce-pulse"
-    />
+    <div id="scroll-hint" class="scroll-hint">
+      <span>Deslizá hacia abajo</span>
+      <svg class="scroll-hint-chevron" viewBox="0 0 34 14" fill="none" aria-hidden="true">
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M33.5609 1.54346C34.0381 2.5875 33.6881 3.87821 32.7791 4.42633L17.0387 13.9181L1.48663 4.42115C0.580153 3.86761 0.235986 2.57483 0.717909 1.53365C1.19983 0.492464 2.32535 0.097152 3.23182 0.650692L17.0497 9.08858L31.051 0.64551C31.96 0.0973872 33.0837 0.499411 33.5609 1.54346Z"
+          fill="currentColor"></path>
+      </svg>
+    </div>
+    <script is:inline>
+      const hint = document.getElementById("scroll-hint")
+      if (hint) {
+        const hideHint = () => {
+          if (window.scrollY > 40) {
+            hint.classList.add("is-gone")
+            window.removeEventListener("scroll", hideHint)
+          }
+        }
+        hideHint()
+        window.addEventListener("scroll", hideHint, { passive: true })
+      }
+    </script>
   </body>
 </html>
 
@@ -139,6 +158,49 @@ const eventJsonLd = {
     color: white;
     margin: 0;
     width: 100%;
+  }
+
+  .scroll-hint {
+    position: fixed;
+    z-index: 50;
+    left: 0;
+    right: 0;
+    bottom: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    pointer-events: none;
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+    transition: opacity 0.35s ease;
+  }
+
+  .scroll-hint-chevron {
+    width: 1.7rem;
+    height: auto;
+    animation: bounce-pulse 1.4s ease-in-out infinite;
+  }
+
+  .scroll-hint.is-gone {
+    opacity: 0;
+  }
+
+  @media (min-width: 901px) {
+    .scroll-hint {
+      bottom: 6.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-hint-chevron {
+      animation: none;
+    }
   }
 
   @font-face {
