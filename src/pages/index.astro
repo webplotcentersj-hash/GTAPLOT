@@ -10,10 +10,10 @@ import EventLanding from "@/components/EventLanding.astro"
 ---
 
 <Layout>
-  <!-- Espacio de scroll para la animación de la intro (en móvil se salta) -->
-  <div id="intro" class="h-[300vh] max-md:h-0" aria-hidden="true"></div>
+  <!-- Espacio de scroll para la animación de la intro -->
+  <div id="intro" class="h-[300vh]" aria-hidden="true"></div>
 
-  <div id="logo-mask" class="fixed top-0 w-full h-screen max-md:hidden">
+  <div id="logo-mask" class="fixed top-0 w-full h-screen pointer-events-none">
     <section>
       <picture
         id="hero-key"
@@ -37,7 +37,7 @@ import EventLanding from "@/components/EventLanding.astro"
 
   <div
     id="hero-chrome"
-    class="fixed flex flex-col items-center justify-between h-screen px-20 py-16 w-full max-md:hidden"
+    class="pointer-events-none fixed flex flex-col items-center justify-between h-screen px-6 py-10 md:px-20 md:py-16 w-full"
   >
     <header class="flex justify-between w-full">
       <LogoVI
@@ -45,7 +45,7 @@ import EventLanding from "@/components/EventLanding.astro"
       />
     </header>
 
-    <button class="absolute inset-0 m-auto inline-block" aria-label="Play Trailer">
+    <button class="hero-play pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" aria-label="Play Trailer">
       <PlayButtonIcon
         id="hero-play-button"
         class="text-white m-auto size-32 mt-10 backdrop-blur-3xl rounded-full hover:scale-110 transition-transform duration-500 cursor-pointer"
@@ -57,7 +57,7 @@ import EventLanding from "@/components/EventLanding.astro"
         class="text-white w-38 drop-shadow-[0_0_2px_rgba(255,255,255,.5),0_0_8px_#000]"
       />
       <span
-        class="absolute uppercase tracking-[6px] whitespace-nowrap text-center top-[49px] font-medium text-shadow-[0_0_2px_rgba(255,255,255,.5),0_0_8px_#000] left-1/2 -translate-x-1/2 text-lg"
+        class="absolute uppercase tracking-[3px] md:tracking-[6px] whitespace-nowrap text-center top-[49px] font-medium text-shadow-[0_0_2px_rgba(255,255,255,.5),0_0_8px_#000] left-1/2 -translate-x-1/2 text-sm md:text-lg"
       >
         Ver el Tráiler 2
       </span>
@@ -75,22 +75,23 @@ import EventLanding from "@/components/EventLanding.astro"
     mask-repeat: no-repeat;
     mask-size: clamp(5000vh, 3500%, 0vh);
   }
+
+  .hero-play {
+    touch-action: manipulation;
+  }
 </style>
 
 <script>
   import { gsap } from "gsap"
   import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-  const isDesktop = window.matchMedia("(min-width: 768px)").matches
+  gsap.registerPlugin(ScrollTrigger)
 
-  if (isDesktop) {
-    gsap.registerPlugin(ScrollTrigger)
+  document.querySelectorAll<HTMLImageElement>("#logo-mask img").forEach((img) => {
+    if (img.dataset.src) img.src = img.dataset.src
+  })
 
-    document.querySelectorAll<HTMLImageElement>("#logo-mask img").forEach((img) => {
-      if (img.dataset.src) img.src = img.dataset.src
-    })
-
-    const tl = gsap.timeline({
+  const tl = gsap.timeline({
       ease: "power2.out",
       scrollTrigger: {
         trigger: "#intro",
@@ -119,5 +120,4 @@ import EventLanding from "@/components/EventLanding.astro"
         },
         0.4
       )
-  }
 </script>
